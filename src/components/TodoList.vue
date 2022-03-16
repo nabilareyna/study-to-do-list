@@ -1,13 +1,29 @@
 <template>
     <div>
-        <input type="text" class="todo-input" placeholder="what needs to be done" v-model="newTodo" @keyup.enter="addTodo">
-        <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">    
-            <todo-item v-for="(todo, index) in todosFiltered" :key="todo.id">
-            </todo-item>
+        <input type="text" class="todo-input" placeholder="What needs to be done" v-model="newTodo" @keyup.enter="addTodo">
+        <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+        <todo-item v-for="todo in todosFiltered" :key="todo.id" :todo="todo" :checkAll="!anyRemaining" @removedTodo="removeTodo" @finishedEdit="finishedEdit">
+        </todo-item>
         </transition-group>
-                <transition name="fade">
-                    <button v-if="showClearCompletedButton" @click="clearCompleted">Clear completed</button>
-                </transition>
+
+        <div class="extra-container">
+        <div><label><input type="checkbox" :checked="!anyRemaining" @change="checkAllTodos"> Check All</label></div>
+        <div>{{ remaining }} items left</div>
+        </div>
+
+        <div class="extra-container">
+        <div>
+            <button :class="{ active: filter == 'all' }" @click="filter = 'all'">All</button>
+            <button :class="{ active: filter == 'active' }" @click="filter = 'active'">Active</button>
+            <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button>
+        </div>
+
+        <div>
+            <transition name="fade">
+            <button v-if="showClearCompletedButton" @click="clearCompleted">Clear Completed</button>
+            </transition>
+        </div>
+
         </div>
     </div>
 </template>

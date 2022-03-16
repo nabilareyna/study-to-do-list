@@ -18,7 +18,7 @@
                 <button :class="{ active: filter == 'active' }" @click="filter = 'active'">Active</button>
                 <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button>
             </div>
-            <div>
+            </div>
     </div>
 </template>
 
